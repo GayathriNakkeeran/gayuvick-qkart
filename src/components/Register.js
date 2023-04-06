@@ -7,6 +7,7 @@ import { config } from "../App";
 import Footer from "./Footer";
 import Header from "./Header";
 import "./Register.css";
+import { useHistory, Link } from "react-router-dom";
 
 
 
@@ -51,8 +52,8 @@ const Register = () => {
   // };
 
   //Handling Submit Button
-  const handleSubmit = (e) => {
-    setSubmitted(true);
+  // const handleSubmit = (e) => {
+  //   setSubmitted(true);
   //  console.log("hii");
   // //  setUserName(document.getElementById("username").getValue());
   //  console.log(userName);
@@ -61,25 +62,31 @@ const Register = () => {
   //   console.log(password);
   //  console.log(INPUT.UserName);
 
-  try{  
+  // try{  
 
-    // console.log(`${config.endpoint}/auth/register`);
-    let request = `{"username": "${userName}","password": "${password}"}`;
-    // console.log(request);
-    axios.post(`${config.endpoint}/auth/register`,JSON.stringify(request)).then(response=>console.log(response));
+  //   // console.log(`${config.endpoint}/auth/register`);
+  //   let request = `{"username": "${userName}","password": "${password}"}`;
+  //   // console.log(request);
+  //   axios.post(`${config.endpoint}/auth/register`,JSON.stringify(request)).then(response=>console.log(response));
     
-  }
-  catch(e){
-    console.log("hii");
+  // }
+  // catch(e){
+  //   console.log("hii");
 
-  }
+  // }
 
 
-  }
+  // }
   
 
 
   // TODO: CRIO_TASK_MODULE_REGISTER - Implement the register function
+
+
+// const Register = () => {
+  // const { enqueueSnackbar } = useSnackbar();
+
+
   /**
    * Definition for register handler
    * - Function to be called when the user clicks on the register button or submits the register form
