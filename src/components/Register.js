@@ -187,7 +187,11 @@ const Register = () => {
     else return true;
   };
 
+  // const header= React.createElement("h1" , null , "learnByDoing");
+
   return (
+    
+    
     <Box
       display="flex"
       flexDirection="column"
@@ -195,9 +199,11 @@ const Register = () => {
       minHeight="100vh"
     >
       <Header hasHiddenAuthButtons />
+      
       <Box className="content">
         <Stack spacing={1} className="form">
           <h2 className="title">Register</h2>
+          {/* <header/> */}
           <TextField
             id="username"
             label="Username"
