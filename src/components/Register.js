@@ -8,8 +8,75 @@ import Footer from "./Footer";
 import Header from "./Header";
 import "./Register.css";
 
+
+
+
 const Register = () => {
+
+  // const [values, setValues] = React.useState({
+  //   name: '',
+  //   password: '',
+  //   confirmPassword: ''
+  // });
+  const [userName , setUserName] = useState("");
+  const [password , setPassword] = useState("");
+  const [confirmPass , setConfirmPass] = useState("");
+  const [submitted ,setSubmitted] = useState(false);
+  const [error , setError] = useState(false);
   const { enqueueSnackbar } = useSnackbar();
+  const[apiLoading , setApiLoading] = useState(true);
+  // const form = document.getElementsByClassName('form');
+  // const formData = new FormData(form);
+
+  // const handleUserName = (e) => {
+  //   console.log("hii");
+
+  //   setUserName(e.target.value);
+  //   setSubmitted(false);
+  // };
+ 
+  // Handling the email change
+  // const handleConfirmPassword = (e) => {
+  //   // console.log("hii1");
+  //    setConfirmPass(e.targt.value);
+  //   setSubmitted(false);
+  // };
+ 
+  // Handling the password change
+  // const handlePassword = (e) => {
+  //   console.log("hii2");
+  //   setPassword(e.target.value);
+  //   setSubmitted(false);
+  //   console.log(password);
+  // };
+
+  //Handling Submit Button
+  const handleSubmit = (e) => {
+    setSubmitted(true);
+  //  console.log("hii");
+  // //  setUserName(document.getElementById("username").getValue());
+  //  console.log(userName);
+  // //  handlePassword(e);
+  //   console.log(confirmPass);
+  //   console.log(password);
+  //  console.log(INPUT.UserName);
+
+  try{  
+
+    // console.log(`${config.endpoint}/auth/register`);
+    let request = `{"username": "${userName}","password": "${password}"}`;
+    // console.log(request);
+    axios.post(`${config.endpoint}/auth/register`,JSON.stringify(request)).then(response=>console.log(response));
+    
+  }
+  catch(e){
+    console.log("hii");
+
+  }
+
+
+  }
+  
 
 
   // TODO: CRIO_TASK_MODULE_REGISTER - Implement the register function
@@ -36,7 +103,61 @@ const Register = () => {
    * }
    */
   const register = async (formData) => {
-  };
+    
+    
+   
+
+    setSubmitted(true);
+    if(validateInput(formData)){
+      setApiLoading(false);
+  //   console.log(formData);
+  //  //  setUserName(document.getElementById("username").getValue());
+  //   console.log(userName);
+  //  //  handlePassword(e);
+  //    console.log(confirmPass);
+  //    console.log(password);
+   //  console.log(INPUT.UserName);
+ 
+   try{  
+ 
+    //  console.log(`${config.endpoint}/auth/register`);
+     //let request = `{username:userName,password:password}`;
+     //console.log(request);
+    //  console.log({username:userName,password:password});
+     let response = await axios.post(`${config.endpoint}/auth/register`,{username:formData.username , password:formData.password});
+      // console.log(response.data);
+       setApiLoading(true);
+      
+      enqueueSnackbar("Registered Successfully", {variant:"success"});
+   }
+   catch(e){
+    
+
+    if(e.response){
+    //  console.log(e.response.data.message);
+     setApiLoading(true);
+     enqueueSnackbar(e.response.data.message ,{variant:"error"});
+    }
+
+     else{
+      // console.log("may be some probss");
+       setApiLoading(true);
+      enqueueSnackbar("Something went wrong. Check that the backend is running, reachable and returns valid JSON.", {variant:"error"});
+     }
+   }
+
+
+  }
+  else{
+    // setApiLoading(true);
+    if(formData.username==="")enqueueSnackbar("Username is a required field" , {variant:"warning"});
+    else if(formData.username.length <6) enqueueSnackbar("Username must be at least 6 characters" , {variant:"warning"});
+    else if(formData.password==="") enqueueSnackbar("Password is a required field" , {variant:"warning"});
+    else if(formData.password.length<6) enqueueSnackbar("Password must be at least 6 characters" , {variant:"warning"});
+    else if(formData.password !== formData.confirmPassword) enqueueSnackbar("Passwords do not match" , {variant:"warning"});
+
+  }
+}
 
   // TODO: CRIO_TASK_MODULE_REGISTER - Implement user input validation logic
   /**
@@ -57,6 +178,13 @@ const Register = () => {
    * -    Check that confirmPassword field has the same value as password field - Passwords do not match
    */
   const validateInput = (data) => {
+
+    if(data.username==="")return false;
+    else if(data.username.length <6) return false;
+    else if(data.password==="")return false;
+    else if(data.password.length<6)return false;
+    else if(data.password !== data.confirmPassword) return false;
+    else return true;
   };
 
   return (
@@ -68,7 +196,7 @@ const Register = () => {
     >
       <Header hasHiddenAuthButtons />
       <Box className="content">
-        <Stack spacing={2} className="form">
+        <Stack spacing={1} className="form">
           <h2 className="title">Register</h2>
           <TextField
             id="username"
@@ -77,7 +205,13 @@ const Register = () => {
             title="Username"
             name="username"
             placeholder="Enter Username"
+            // value={userName}
+            onChange={(event) => {
+              setUserName(event.target.value);
+            }}
+            // value={values.name}
             fullWidth
+          //  onchange={handleUserName}
           />
           <TextField
             id="password"
@@ -86,20 +220,35 @@ const Register = () => {
             name="password"
             type="password"
             helperText="Password must be atleast 6 characters length"
+            // value={password}
+            onChange={(event) => {
+              setPassword(event.target.value);
+            }}
+            // value={values.password}
+  
             fullWidth
             placeholder="Enter a password with minimum 6 characters"
+            // onchange = {handlePassword()}
           />
           <TextField
             id="confirmPassword"
+            // ref="password"
             variant="outlined"
             label="Confirm Password"
             name="confirmPassword"
             type="password"
+            // value={confirmPass}
+            onChange={(event) => {
+              setConfirmPass(event.target.value);
+            }}
+            
+            // value = {values.confirmPassword}
             fullWidth
+            // onchange = {()=>handleConfirmPassword}
           />
-           <Button className="button" variant="contained">
+           {apiLoading?<Button className="button" variant="contained" onClick = {()=>register({username:userName ,password:password, confirmPassword:confirmPass} )}>
             Register Now
-           </Button>
+           </Button>: <Box sx={{ display: 'flex' , justifyContent:'center' }}><CircularProgress /></Box>}
           <p className="secondary-action">
             Already have an account?{" "}
              <a className="link" href="#">
