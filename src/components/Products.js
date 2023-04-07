@@ -17,6 +17,14 @@ import "./Products.css";
 
 
 const Products = () => {
+  let isLoggedIn = false;
+  const loggedInUser = window.localStorage.getItem("username");
+
+  if(loggedInUser!==null){
+    // console.log(loggedInUser)
+      isLoggedIn =true}
+ 
+  
 
 
 
@@ -26,7 +34,8 @@ const Products = () => {
 
   return (
     <div>
-      <Header>
+      <Header hasHiddenAuthButtons={isLoggedIn} whichPage = "product"  loggedInUser = {loggedInUser}>
+        
 
       </Header>
 

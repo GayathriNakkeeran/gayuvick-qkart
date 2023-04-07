@@ -11,8 +11,18 @@ export const config = {
 function App() {
   return (
     <div className="App">
+
+      <Switch>
+
+        <Route exact path = "/"  component = {Products}/>
+        <Route path = "/login" component={Login}>
+          {/* {submitted? <Redirect to = "/register"/> : <Login/>} */}
+          </Route>
+        <Route path = "/register" component = {Register}/>
+      </Switch>
       {/* TODO: CRIO_TASK_MODULE_LOGIN - To add configure routes and their mapping */}
-          <Register />
+          {/* <Register /> */}
+          {/* <Login/> */}
     </div>
   );
 }

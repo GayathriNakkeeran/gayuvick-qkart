@@ -7,16 +7,20 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    /* height: 70vh; */
+    
+    /* height:100vh; */
+    /* height:50vh; */
+    /* height: 10vh; */
   }
   
   .form {
     background-color: white;
     border-radius: 10px;
-    padding: 2rem;
+    padding: 1rem;
     min-width: 80%;
     margin: 2rem;
     box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.2);
+    /* height:50vh; */
   }
   
   .title {
@@ -56,6 +60,7 @@
   @media screen and (min-width: 768px) {
     .form {
       min-width: 24rem;
+      /* height:70vh; */
       
       /* height:10vh; */
       

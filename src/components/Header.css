@@ -19,6 +19,11 @@
 .explore-button {
     color: #00a278 !important;
 }
+.registerHeaderButton{
+    background-color: #00a278 !important;
+    color: white !important;
+    /* background-color: green !important; */
+}
 
 @media screen and (min-width: 768px) {
     .username-text {

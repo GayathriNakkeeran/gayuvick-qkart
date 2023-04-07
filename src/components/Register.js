@@ -8,6 +8,7 @@ import Footer from "./Footer";
 import Header from "./Header";
 import "./Register.css";
 import { useHistory, Link } from "react-router-dom";
+import {Redirect } from 'react-router-dom';
 
 
 
@@ -26,6 +27,7 @@ const Register = () => {
   const [error , setError] = useState(false);
   const { enqueueSnackbar } = useSnackbar();
   const[apiLoading , setApiLoading] = useState(true);
+  const history = useHistory();
   // const form = document.getElementsByClassName('form');
   // const formData = new FormData(form);
 
@@ -114,7 +116,7 @@ const Register = () => {
     
    
 
-    setSubmitted(true);
+    
     if(validateInput(formData)){
       setApiLoading(false);
   //   console.log(formData);
@@ -134,8 +136,11 @@ const Register = () => {
      let response = await axios.post(`${config.endpoint}/auth/register`,{username:formData.username , password:formData.password});
       // console.log(response.data);
        setApiLoading(true);
+       setSubmitted(true);
       
       enqueueSnackbar("Registered Successfully", {variant:"success"});
+      history.push("/login");
+      
    }
    catch(e){
     
@@ -205,10 +210,10 @@ const Register = () => {
       justifyContent="space-between"
       minHeight="100vh"
     >
-      <Header hasHiddenAuthButtons />
+      <Header whichPage = "register" />
       
       <Box className="content">
-        <Stack spacing={1} className="form">
+        <Stack spacing={0.5} className="form">
           <h2 className="title">Register</h2>
           {/* <header/> */}
           <TextField
@@ -264,12 +269,13 @@ const Register = () => {
            </Button>: <Box sx={{ display: 'flex' , justifyContent:'center' }}><CircularProgress /></Box>}
           <p className="secondary-action">
             Already have an account?{" "}
-             <a className="link" href="#">
+             <Link className="link" to = "/login">
               Login here
-             </a>
+             </Link>
           </p>
         </Stack>
       </Box>
+      {/* {submitted? <Redirect to="/login"/> : {Register}} */}
       <Footer />
     </Box>
   );
