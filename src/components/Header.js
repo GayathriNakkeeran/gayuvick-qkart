@@ -11,7 +11,7 @@ const Header = ({ children, hasHiddenAuthButtons , whichPage  , loggedInUser}) =
   // console.log(hasHiddenAuthButtons);
   
   
-  // console.log(whichPage);
+   console.log(whichPage);
   const history = useHistory();
   
   const exploreButton = ()=>{

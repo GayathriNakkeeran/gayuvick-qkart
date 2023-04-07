@@ -120,10 +120,15 @@ const Products = () => {
 
   return (
     <div>
-      <Header>
-        {/* TODO: CRIO_TASK_MODULE_PRODUCTS - Display search bar in the header for Products page */}
+      <Header hasHiddenAuthButtons={isLoggedIn} whichPage = "product"  loggedInUser = {loggedInUser}>
+        
 
       </Header>
+
+      {/* <Header>
+        {/* TODO: CRIO_TASK_MODULE_PRODUCTS - Display search bar in the header for Products page */}
+
+      </Header> */}
 
       {/* Search view for mobiles */}
       <TextField
