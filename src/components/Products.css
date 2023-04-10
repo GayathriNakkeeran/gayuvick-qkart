@@ -43,6 +43,9 @@
   width: 100%;
   height: 50vh;
 }
+.loadingText{
+  font-weight: bold;
+}
 
 .search-mobile {
   display: block !important;
@@ -50,6 +53,7 @@
 
 .search-desktop {
   display: none !important;
+  
 }
 
 @media screen and (min-width: 768px) {
@@ -65,8 +69,12 @@
   }
   .search-mobile {
     display: none !important;
+
   }
   .search-desktop {
     display: block !important;
+    width:30% !important;
+    text-align:center !important;
+    
   }
 }
