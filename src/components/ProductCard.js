@@ -1,3 +1,6 @@
+
+/***************************************************************************PRODUCT CARD PAGE******************************************************************************* */
+
 import { AddShoppingCartOutlined } from "@mui/icons-material";
 import {
   Button,
@@ -12,36 +15,117 @@ import {
 import React from "react";
 import "./ProductCard.css";
 
-const ProductCard = ({ product, handleAddToCart }) => {
-  return (
+
+
+
+/*************************************************************************ORIGINAL EXPORTING PRODUCT CARD CONTENT************************************************************** */
+
+
+
+
+
+
+
+const ProductCard = (
+  { product,
+    handleAddToCart
+   }) => {
+
+
+
+
+  return(
 
      product.map((character)=>(
-      <Grid item className = "individualProduct" xs={6} md = {3} >
-    <Card className="card">
-      {/* <CardActions> */}
-        <CardMedia
-        component="img"
-        image = {character.image}
-        alt= "product-image"
-        >
 
-        </CardMedia>
-        <CardContent>
-          <Typography component="div">
-            {character.name}
-          </Typography>
-          <Typography >
-            <strong>${character.cost}</strong>
-            
-          </Typography>
-          <Rating name="read-only" value={character.rating} readOnly />
-          <Typography variant="button">
-            <Button className = "card-button">ADD TO CART</Button></Typography>
-        </CardContent>
+      <Grid 
+          item key = {character._id}
+          className = "individualProduct"
+          xs={6} 
+          md = {3} >
+       
+         <Card className="card">
 
-      {/* </CardActions> */}
-    </Card>
-    </Grid>))
+
+{/* ***************************************************CARD MEDIA TO SHOW IMAGE*****************************************************************8 */}
+
+
+
+
+     
+            <CardMedia
+               component="img"
+               image = {character.image}
+               alt= "product-image"
+             >
+
+            </CardMedia>
+
+
+
+
+{/* ******************************************************CARD CONTENT TO SHOW CONTENT OF CARD******************************************************** */}
+
+
+
+            <CardContent>
+
+
+          {/* ***************************NAME OF PRODUCT************************* */}
+
+
+
+                <Typography component="div">
+                      {character.name}
+                </Typography>
+
+
+          {/* *****************************COST OF PRODUCT************************* */}
+
+
+
+                <Typography >
+                  <strong>${character.cost}</strong>            
+                </Typography>
+
+
+          {/* ********************************STAR RATING FOR PRODUCT******************* */}
+
+
+
+                <Rating name="read-only" value={character.rating} readOnly />
+
+
+
+          {/* **********************************ADD TO CART BUTTON FOR PRODUCT********************************** */}
+
+
+
+
+
+                <Typography variant="button">
+
+                  <Button 
+                    className = "card-button" 
+                    onClick = {
+                      ()=> {handleAddToCart( "" ,[] , [], character._id , 1 ,{preventDuplicate:true})}}>
+                        ADD TO CART
+                  </Button>
+                  
+                </Typography>
+
+
+                
+
+            {/* ***********************************CARD CONTENT ENDS************************************************* */}
+
+            </CardContent>
+
+     
+         </Card>
+
+
+      </Grid>))
   );
 };
 

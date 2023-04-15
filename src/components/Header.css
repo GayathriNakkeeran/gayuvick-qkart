@@ -3,7 +3,7 @@
     justify-content: space-between;
     align-items: center;
     padding: 1rem;
-    height: 5vh;
+    height: 5vh !important;
     box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.2);
     background: #ffffff;
 }
@@ -28,5 +28,8 @@
 @media screen and (min-width: 768px) {
     .username-text {
         display: block;
+    }
+    .header{
+        height:7vh !important;
     }
 }

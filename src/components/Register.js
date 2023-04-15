@@ -1,3 +1,18 @@
+
+
+
+
+
+
+/******************************************************************************REGISTER PAGE******************************************************************************** */
+
+
+
+
+
+
+
+
 import { Button, CircularProgress, Stack, TextField } from "@mui/material";
 import { Box } from "@mui/system";
 import axios from "axios";
@@ -13,13 +28,19 @@ import {Redirect } from 'react-router-dom';
 
 
 
+
+
+
+/***********************************************************************************REGISTER FUNCTIONALITY********************************************************************************** */
+
+
+
+
+
+
+
 const Register = () => {
 
-  // const [values, setValues] = React.useState({
-  //   name: '',
-  //   password: '',
-  //   confirmPassword: ''
-  // });
   const [userName , setUserName] = useState("");
   const [password , setPassword] = useState("");
   const [confirmPass , setConfirmPass] = useState("");
@@ -28,65 +49,14 @@ const Register = () => {
   const { enqueueSnackbar } = useSnackbar();
   const[apiLoading , setApiLoading] = useState(true);
   const history = useHistory();
-  // const form = document.getElementsByClassName('form');
-  // const formData = new FormData(form);
 
-  // const handleUserName = (e) => {
-  //   console.log("hii");
-
-  //   setUserName(e.target.value);
-  //   setSubmitted(false);
-  // };
- 
-  // Handling the email change
-  // const handleConfirmPassword = (e) => {
-  //   // console.log("hii1");
-  //    setConfirmPass(e.targt.value);
-  //   setSubmitted(false);
-  // };
- 
-  // Handling the password change
-  // const handlePassword = (e) => {
-  //   console.log("hii2");
-  //   setPassword(e.target.value);
-  //   setSubmitted(false);
-  //   console.log(password);
-  // };
-
-  //Handling Submit Button
-  // const handleSubmit = (e) => {
-  //   setSubmitted(true);
-  //  console.log("hii");
-  // //  setUserName(document.getElementById("username").getValue());
-  //  console.log(userName);
-  // //  handlePassword(e);
-  //   console.log(confirmPass);
-  //   console.log(password);
-  //  console.log(INPUT.UserName);
-
-  // try{  
-
-  //   // console.log(`${config.endpoint}/auth/register`);
-  //   let request = `{"username": "${userName}","password": "${password}"}`;
-  //   // console.log(request);
-  //   axios.post(`${config.endpoint}/auth/register`,JSON.stringify(request)).then(response=>console.log(response));
-    
-  // }
-  // catch(e){
-  //   console.log("hii");
-
-  // }
-
-
-  // }
   
 
 
+
+
+
   // TODO: CRIO_TASK_MODULE_REGISTER - Implement the register function
-
-
-// const Register = () => {
-  // const { enqueueSnackbar } = useSnackbar();
 
 
   /**
@@ -111,65 +81,108 @@ const Register = () => {
    *      "message": "Username is already taken"
    * }
    */
-  const register = async (formData) => {
-    
-    
-   
 
+
+
+
+
+
+
+
+
+
+
+  /***************************************************************************************REGISTER BUTTON FUNCTION HANDLE******************************************************************************** */
+  
+  
+  
+  
+  
+  
+  
+  
+  const register = async (formData) => { 
     
+    /**************************ONLY AFTER CHECKING USERNAME PASSWORD BASIC CHECK PROCEED*********************************** */
+
+
+
+
+
     if(validateInput(formData)){
       setApiLoading(false);
-  //   console.log(formData);
-  //  //  setUserName(document.getElementById("username").getValue());
-  //   console.log(userName);
-  //  //  handlePassword(e);
-  //    console.log(confirmPass);
-  //    console.log(password);
-   //  console.log(INPUT.UserName);
- 
-   try{  
- 
-    //  console.log(`${config.endpoint}/auth/register`);
-     //let request = `{username:userName,password:password}`;
-     //console.log(request);
-    //  console.log({username:userName,password:password});
-     let response = await axios.post(`${config.endpoint}/auth/register`,{username:formData.username , password:formData.password});
-      // console.log(response.data);
-       setApiLoading(true);
-       setSubmitted(true);
-      
-      enqueueSnackbar("Registered Successfully", {variant:"success"});
-      history.push("/login");
-      
-   }
-   catch(e){
-    
 
-    if(e.response){
-    //  console.log(e.response.data.message);
-     setApiLoading(true);
-     enqueueSnackbar(e.response.data.message ,{variant:"error"});
+
+
+    /******************************************TRY TO REGISTER USERNAME PASSWORD*************************************** */
+
+
+
+
+      try{  
+          await axios.post(`${config.endpoint}/auth/register`,{username:formData.username , password:formData.password});      
+          setApiLoading(true);
+          setSubmitted(true);      
+          enqueueSnackbar("Registered Successfully", {variant:"success"});
+          history.push("/login");
+      
+      }
+
+
+
+
+      /******************************************************IF ANY ERROR OCCURS CATCH BLOCK HELPS******************************************* */
+
+
+
+      catch(e){
+
+
+          if(e.response){    
+            setApiLoading(true);
+            enqueueSnackbar(e.response.data.message ,{variant:"error"});
+           }
+
+         else{
+     
+          setApiLoading(true);
+          enqueueSnackbar("Something went wrong. Check that the backend is running, reachable and returns valid JSON.", {variant:"error"});
+        }
+      }
+
+
     }
 
-     else{
-      // console.log("may be some probss");
-       setApiLoading(true);
-      enqueueSnackbar("Something went wrong. Check that the backend is running, reachable and returns valid JSON.", {variant:"error"});
-     }
-   }
 
 
-  }
-  else{
-    // setApiLoading(true);
-    if(formData.username==="")enqueueSnackbar("Username is a required field" , {variant:"warning"});
-    else if(formData.username.length <6) enqueueSnackbar("Username must be at least 6 characters" , {variant:"warning"});
-    else if(formData.password==="") enqueueSnackbar("Password is a required field" , {variant:"warning"});
-    else if(formData.password.length<6) enqueueSnackbar("Password must be at least 6 characters" , {variant:"warning"});
-    else if(formData.password !== formData.confirmPassword) enqueueSnackbar("Passwords do not match" , {variant:"warning"});
+    /*************************************************************************IF VALIDATION FAILS, SHOW CORRESPONDING WARNING DISPLAY*******************************************************************8 */
+
+
+
+
+
+
+    else{
+   
+        if(formData.username==="")enqueueSnackbar("Username is a required field" , {variant:"warning"});
+        else if(formData.username.length <6) enqueueSnackbar("Username must be at least 6 characters" , {variant:"warning"});
+        else if(formData.password==="") enqueueSnackbar("Password is a required field" , {variant:"warning"});
+        else if(formData.password.length<6) enqueueSnackbar("Password must be at least 6 characters" , {variant:"warning"});
+        else if(formData.password !== formData.confirmPassword) enqueueSnackbar("Passwords do not match" , {variant:"warning"});
 
   }
 }
+
+
+
+
+
+
+
+
+
+
+
 
   // TODO: CRIO_TASK_MODULE_REGISTER - Implement user input validation logic
   /**
@@ -189,7 +202,32 @@ const Register = () => {
    * -    Check that password field is not less than 6 characters in length - "Password must be at least 6 characters"
    * -    Check that confirmPassword field has the same value as password field - Passwords do not match
    */
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  /***********************************************************************************************************VALIDATE INPUT FUNCTION FOR BASIC USERNAME PASSWORD CHECKING********************************************************************************** */
+  
+  
+  
+  
+  
+  
+  
+  
+  
   const validateInput = (data) => {
+
 
     if(data.username==="")return false;
     else if(data.username.length <6) return false;
@@ -197,9 +235,14 @@ const Register = () => {
     else if(data.password.length<6)return false;
     else if(data.password !== data.confirmPassword) return false;
     else return true;
+
   };
 
-  // const header= React.createElement("h1" , null , "learnByDoing");
+  
+
+
+
+
 
   return (
     
@@ -211,11 +254,31 @@ const Register = () => {
       minHeight="100vh"
     >
       <Header whichPage = "register" />
+
+
+
+
+      {/* **************************************************************************BOX COMPONENT FOR REGISTRATION FORM******************************************************************8 */}
       
+
+
+
+
       <Box className="content">
         <Stack spacing={0.5} className="form">
+
+
+
+          {/* ***************************HEADING IS REGISTER*************************** */}
+
+
           <h2 className="title">Register</h2>
-          {/* <header/> */}
+
+
+          {/* ******************************USERNAME FEILD****************************** */}
+
+
+          
           <TextField
             id="username"
             label="Username"
@@ -223,14 +286,20 @@ const Register = () => {
             title="Username"
             name="username"
             placeholder="Enter Username"
-            // value={userName}
             onChange={(event) => {
               setUserName(event.target.value);
-            }}
-            // value={values.name}
+            }}           
             fullWidth
-          //  onchange={handleUserName}
           />
+
+
+
+
+          {/* *********************************PASSWORD FEILD****************************** */}
+
+
+
+
           <TextField
             id="password"
             variant="outlined"
@@ -238,44 +307,80 @@ const Register = () => {
             name="password"
             type="password"
             helperText="Password must be atleast 6 characters length"
-            // value={password}
             onChange={(event) => {
               setPassword(event.target.value);
             }}
-            // value={values.password}
-  
             fullWidth
             placeholder="Enter a password with minimum 6 characters"
-            // onchange = {handlePassword()}
-          />
+            />
+
+
+
+
+
+         {/* ***************************************************CONFIRM PASSWORD FEILD**************************************** */}
+
+
+
+
+
           <TextField
             id="confirmPassword"
-            // ref="password"
             variant="outlined"
             label="Confirm Password"
             name="confirmPassword"
             type="password"
-            // value={confirmPass}
             onChange={(event) => {
               setConfirmPass(event.target.value);
             }}
-            
-            // value = {values.confirmPassword}
             fullWidth
-            // onchange = {()=>handleConfirmPassword}
-          />
-           {apiLoading?<Button className="button" variant="contained" onClick = {()=>register({username:userName ,password:password, confirmPassword:confirmPass} )}>
-            Register Now
-           </Button>: <Box sx={{ display: 'flex' , justifyContent:'center' }}><CircularProgress /></Box>}
+            />
+
+
+
+
+            {/* **********************************************************LOADING BUTTON ON BACKEND WORKING TIME********************************************* */}
+
+
+
+
+           {apiLoading?
+              <Button 
+                  className="button" 
+                  variant="contained" 
+                  onClick = {()=>register({username:userName ,password:password, confirmPassword:confirmPass} )}
+                  >
+                  Register Now
+              </Button>
+              
+              : 
+              
+              <Box sx={{ display: 'flex' , justifyContent:'center' }}>
+                <CircularProgress />
+              </Box>}
+
+
+
+          {/* **************************************************LOGIN BUTTON DISPLAY ON BOTTOM************************************************ */}
+
+
+
+
           <p className="secondary-action">
             Already have an account?{" "}
              <Link className="link" to = "/login">
               Login here
              </Link>
           </p>
+
+
         </Stack>
+
       </Box>
-      {/* {submitted? <Redirect to="/login"/> : {Register}} */}
+
+
+      {/* ************************************************************FOOTER ELEMENT********************************************************************** */}
+      
       <Footer />
     </Box>
   );

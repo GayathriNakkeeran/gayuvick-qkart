@@ -1,14 +1,37 @@
+/***************************************************************************CART FUNCTINALITY***************************************************************/
+
+
+
+
+
+
+/******************************************************************************REQUIRED IMPORTS*********************************************************************************/
+/**************************************************************************WHY THESE IMPORTS??   NOT KNOWN :( ********************************************************************/ 
+
+
+
+
+
+
 import {
   AddOutlined,
   RemoveOutlined,
   ShoppingCart,
   ShoppingCartOutlined,
 } from "@mui/icons-material";
+
 import { Button, IconButton, Stack } from "@mui/material";
 import { Box } from "@mui/system";
 import React from "react";
 import { useHistory } from "react-router-dom";
 import "./Cart.css";
+
+
+
+
+
+
+
 
 // Definition of Data Structures used
 /**
@@ -47,8 +70,53 @@ import "./Cart.css";
  *    Array of objects with complete data on products in cart
  *
  */
-export const generateCartItemsFrom = (cartData, productsData) => {
+
+
+
+
+
+
+
+
+/********************************GENERATE CART ITEMS FROM METHOD---> TO GENERATE CARTDISPLAY FROM CARTLIST(ID,QTY) && PRODUCT LIST ************************************/
+
+
+
+
+
+
+
+
+
+
+export const generateCartItemsFrom = (cartData, productsData) => { 
+
+  /***VARIABLE DECLARATION TO STORE OUTPUT***/
+  let cardItem=[]
+  /*FOR EACH LOOP WONT WORK HERE...USE FOR OF LOOP*/
+  for(const item of cartData){
+    productsData.forEach((product)=>
+    { 
+      if(item.productId === product._id)
+      {
+
+        /*******ONLY PRODUCT ID AND QUANTITY IS PRESENT , WE HAVE TO DEFINE ALL OTHER ATTRIBUTES BY MATCHING WITH ALREADY AVAILABLE DATA*******/
+
+        item["name"] = product.name;
+        item["category"] = product.category;
+        item["cost"] = product.cost;
+        item["rating"] = product.rating;
+        item["image"] = product.image;
+        cardItem.push(item);
+
+      }
+    }
+    )
+  }  
+  return cardItem;
 };
+
+
 
 /**
  * Get the total value of all products added to the cart
@@ -60,8 +128,36 @@ export const generateCartItemsFrom = (cartData, productsData) => {
  *    Value of all items in the cart
  *
  */
-export const getTotalCartValue = (items = []) => {
+
+
+
+
+
+
+/**********************************************************GET TOTAL CART VALUE********************************************************************************/
+
+
+
+
+
+
+
+
+
+export const getTotalCartValue = (items) => {
+
+  let cost = 0;
+
+  /*TOTAL COST CALCULATED BY MULTIPLYTING EVERY ITEM QUANTITY BY ITS COST AND SUM ALTOGETHER*/
+  items.forEach((item)=> cost+=(item.qty * item.cost));
+  return cost;
+
 };
+
+
+
+
+
 
 
 /**
@@ -78,25 +174,53 @@ export const getTotalCartValue = (items = []) => {
  * 
  * 
  */
-const ItemQuantity = ({
-  value,
-  handleAdd,
-  handleDelete,
-}) => {
-  return (
+
+
+
+
+
+
+
+
+/**************************************************************************ITEM QUANTITY METHOD--> TO DISPLAY INDIVIDUAL ITEM QUANTITY AND + - BUTTON IN CART ****************************************************** */
+
+
+
+
+
+
+const ItemQuantity = (
+  /*INPUT PARAMETERS FOR THIS METHOD*/
+  /*ID IS NOT GIVVEN IN DEFINATION*/
+  /*HANDLE ADD DELETE IS GIVEN AS PROPS FORM WHERE ITEM QUANTITY IS CALLED*/
+  {
+   value,
+   handleAdd,
+   handleDelete,
+   id
+  }
+  ) => {
+
+  return(  
+    
     <Stack direction="row" alignItems="center">
-      <IconButton size="small" color="primary" onClick={handleDelete}>
+      
+      <IconButton size="small" color="primary" onClick={()=>{handleAdd("" , [] , [] , id , value-1 , {preventDuplicate:false})}}>
         <RemoveOutlined />
       </IconButton>
       <Box padding="0.5rem" data-testid="item-qty">
         {value}
       </Box>
-      <IconButton size="small" color="primary" onClick={handleAdd}>
+      <IconButton size="small" color="primary" onClick={()=>{handleDelete("" , [] , [] , id , value+1 , {preventDuplicate:false})}}>
         <AddOutlined />
       </IconButton>
     </Stack>
   );
 };
+
+
+
+
 
 /**
  * Component to display the Cart view
@@ -112,60 +236,136 @@ const ItemQuantity = ({
  * 
  * 
  */
-const Cart = ({
-  products,
-  items = [],
-  handleQuantity,
+
+
+/******************************************************************ORIGINAL EXPORTING CART COMPONENT********************************************************************* */
+
+
+
+
+
+
+
+
+
+const Cart = (
+  {
+   products,
+   items,
+   handleQuantity,
 }) => {
+  
 
-  if (!items.length) {
-    return (
-      <Box className="cart empty">
-        <ShoppingCartOutlined className="empty-cart-icon" />
-        <Box color="#aaa" textAlign="center">
-          Cart is empty. Add more items to the cart to checkout.
-        </Box>
-      </Box>
-    );
-  }
+       const history = useHistory();
+       if (!items.length) 
+       {
+        return (
+            <Box className="cart empty">
+               <ShoppingCartOutlined className="empty-cart-icon" />
+              <Box color="#aaa" textAlign="center">
+                  Cart is empty. Add more items to the cart to checkout.
+              </Box>
+            </Box>
+           );
+       }
 
-  return (
-    <>
-      <Box className="cart">
-        {/* TODO: CRIO_TASK_MODULE_CART - Display view for each cart item with non-zero quantity */}
-        <Box
-          padding="1rem"
-          display="flex"
-          justifyContent="space-between"
-          alignItems="center"
-        >
-          <Box color="#3C3C3C" alignSelf="center">
-            Order total
+
+       /*ELSE CONDITION */
+       return(   
+          <>
+            <Box className="cart">
+                {items.map((wishlist) => (
+      
+                    <Box display="flex" alignItems="flex-start" padding="1rem" key = {wishlist.productId}>
+
+                        <Box className="image-container">
+
+                           <img
+                              // Add product image
+                              src={wishlist.image}
+                              // Add product name as alt eext
+                              alt={wishlist.name}
+                              width="100%"
+                              height="100%"
+                            />
+                        </Box>
+
+                        <Box
+                            display="flex"
+                            flexDirection="column"
+                            justifyContent="space-between"
+                            height="6rem"
+                            paddingX="1rem"
+                         >
+
+                            <div>{wishlist.name}</div>
+                            <Box
+                                display="flex"
+                                justifyContent="space-between"
+                                alignItems="center"
+                             >
+                                <ItemQuantity
+                                        value={wishlist.qty}  handleAdd={handleQuantity} handleDelete={handleQuantity} id = {wishlist.productId}
+                                        // Add required props by checking implementation
+                                />
+                
+                                <Box padding="0.5rem" fontWeight="700">
+                                  ${wishlist.cost}
+                                </Box>
+
+                            </Box>
+                        </Box>
+                    </Box>
+
+                      )
+     
+                     )
+                  }
+       
+        
+            <Box
+              padding="1rem"
+              display="flex"
+              justifyContent="space-between"
+              alignItems="center"
+             >
+                <Box color="#3C3C3C" alignSelf="center">
+                  Order total
+                </Box>
+
+                <Box
+                  color="#3C3C3C"
+                  fontWeight="700"
+                  fontSize="1.5rem"
+                  alignSelf="center"
+                  data-testid="cart-total"
+                 >
+                  ${getTotalCartValue(items)}
+                  
+
+                  {/* ${generateCartItemsFrom(items,products)} */}
+                </Box>
+            </Box>
+
+            <Box display="flex" justifyContent="flex-end" className="cart-footer">
+                <Button
+                  color="primary"
+                  variant="contained"
+                  startIcon={<ShoppingCart />}
+                  className="checkout-btn"
+                  onClick = {()=>{history.push("/checkout") }}
+                 >
+                  Checkout
+                </Button>
+            </Box>
+
           </Box>
-          <Box
-            color="#3C3C3C"
-            fontWeight="700"
-            fontSize="1.5rem"
-            alignSelf="center"
-            data-testid="cart-total"
-          >
-            ${getTotalCartValue(items)}
-          </Box>
-        </Box>
 
-        <Box display="flex" justifyContent="flex-end" className="cart-footer">
-          <Button
-            color="primary"
-            variant="contained"
-            startIcon={<ShoppingCart />}
-            className="checkout-btn"
-          >
-            Checkout
-          </Button>
-        </Box>
-      </Box>
-    </>
+         </>
+    
   );
 };
+
+
 
 export default Cart;
