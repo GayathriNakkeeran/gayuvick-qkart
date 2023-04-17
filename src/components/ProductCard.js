@@ -39,7 +39,8 @@ const ProductCard = (
      product.map((character)=>(
 
       <Grid 
-          item key = {character._id}
+          item 
+          key = {character._id}
           className = "individualProduct"
           xs={6} 
           md = {3} >

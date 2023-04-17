@@ -5,6 +5,7 @@
 }
 
 .address-item {
+    /* border:solid ; */
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -12,8 +13,29 @@
     margin: 1rem 0;
     border-radius: 5px;
     cursor: pointer;
+   
+    
 }
 
+.detailedItem{
+    background-color: pink;
+    justify-content: end;
+
+}
+
+.orderDetails{
+    background-color: white;
+    margin:0.2rem;
+    border-radius: 4px;
+}
+.orderDetailHeading{
+    padding: 1.5rem 0.5rem !important;
+    
+    font-weight: 1000;
+    /* margin-top: 2px; */
+    /* background-color: pink; */
+    /* margin:2rem !important; */
+}
 .shipping-container {
     padding: 2rem 1rem;
 }
@@ -21,6 +43,9 @@
 .selected {
     border: 1px solid #00A278;
     background-color: #E9F5E1;
+}
+#cancelAddButton{
+    display:none;
 }
 
 .not-selected {

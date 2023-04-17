@@ -193,12 +193,20 @@ const ItemQuantity = (
   /*ID IS NOT GIVVEN IN DEFINATION*/
   /*HANDLE ADD DELETE IS GIVEN AS PROPS FORM WHERE ITEM QUANTITY IS CALLED*/
   {
+    isReadOnly,
    value,
    handleAdd,
    handleDelete,
    id
   }
   ) => {
+    if(isReadOnly){
+      return(
+        <Box padding="0.5rem" data-testid="item-qty">
+          Qty:{value}
+        </Box>
+      )
+    }
 
   return(  
     
@@ -237,6 +245,38 @@ const ItemQuantity = (
  */
 
 
+
+
+
+
+
+
+
+/**********************************************************************getTotalCartItems***************************************************************************************** */
+
+
+
+
+
+
+export const getTotalItems = (cartItem)=>{
+
+  let totalItem = 0;
+  cartItem.forEach((item)=>{
+    totalItem+=1;
+
+  })
+  return totalItem;
+}
+
+
+
+
+
+
+
+
+
 /******************************************************************ORIGINAL EXPORTING CART COMPONENT********************************************************************* */
 
 
@@ -249,6 +289,7 @@ const ItemQuantity = (
 
 const Cart = (
   {
+   isReadOnly,
    products,
    items,
    handleQuantity,
@@ -303,10 +344,14 @@ const Cart = (
                                 justifyContent="space-between"
                                 alignItems="center"
                              >
-                                <ItemQuantity
-                                        value={wishlist.qty}  handleAdd={handleQuantity} handleDelete={handleQuantity} id = {wishlist.productId}
+
+                             
+
+                              <ItemQuantity
+                                        isReadOnly={isReadOnly} value={wishlist.qty}  handleAdd={handleQuantity} handleDelete={handleQuantity} id = {wishlist.productId}
                                         // Add required props by checking implementation
                                 />
+                                
                 
                                 <Box padding="0.5rem" fontWeight="700">
                                   ${wishlist.cost}
@@ -346,7 +391,8 @@ const Cart = (
                 </Box>
             </Box>
 
-            <Box display="flex" justifyContent="flex-end" className="cart-footer">
+           {isReadOnly? null:
+                <Box display="flex" justifyContent="flex-end" className="cart-footer">
                 <Button
                   color="primary"
                   variant="contained"
@@ -356,7 +402,7 @@ const Cart = (
                  >
                   Checkout
                 </Button>
-            </Box>
+            </Box>} 
 
           </Box>
 
